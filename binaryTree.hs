@@ -21,6 +21,6 @@ module BinaryTree where
         | x > root = Node lSub root (treeInsert x rSub)
 
     --recurses over list of nodes to add
-    treeFromList :: (Ord a) => [a] -> BTree a -> BTree a
-    treeFromList [] tree = tree
-    treeFromList (node:nodes) tree = treeFromList nodes (treeInsert node tree)
+    treeFromList :: (Ord a) => [a] -> BTree a
+    treeFromList [] = EmptyTree
+    treeFromList (node:nodes) = treeInsert node (treeFromList nodes)
