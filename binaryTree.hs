@@ -1,20 +1,15 @@
 module BinaryTree where
-    data BTree a = EmptyTree | Node (BTree a) a (BTree a) deriving (Ord, Eq, Show)
+    --type definition for binary trees
+    data BTree a = EmptyTree | Node (BTree a) a (BTree a) deriving (Ord, Eq)
 
     {- need to create instances for ord, show etc
-    how to show a BTree?
-    need to instance Read?
-
-    instance Show BTree where
-        show (BTree a) = show a
-    
-    instance Show EmptyTree where
-        show (EmptyTree) = ""
-
-    instance Show Node where
-        show (Node (BTree a) b (BTree c)) = show BTree a ++ " " ++ b ++ " " ++ show BTree c
+    add type constraint to type definition?
+    add instances for Ord, Eq
     -}
     
+    instance Show a => Show (BTree a) where
+        show EmptyTree = ""
+        show (Node a b c) = show a ++ " " ++ show b ++ " " ++ show c
 
     {- compares value of new node x to root
     if same, don't insert (no duplicates); if smaller, insert into left subtree lSub; if larger, insert into right subtree rSub -}
