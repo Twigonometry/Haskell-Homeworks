@@ -21,6 +21,37 @@ module BinaryTree where
         | x > root = Node lSub root (treeInsert x rSub)
 
     --recurses over list of nodes to add
+    --in current form, inserted in reverse order (sort of)
+    --e.g [2,1] -> insert 2 into 1 (even though 2 should be root element)
     treeFromList :: (Ord a) => [a] -> BTree a
     treeFromList [] = EmptyTree
     treeFromList (node:nodes) = treeInsert node (treeFromList nodes)
+
+    --taking definition from slides "A binary tree is complete if the two sub-trees of every node are of equal size"
+    {-
+    complete :: (Ord a) => BTree a -> Bool
+    complete EmptyTree = False
+    complete (Node lSub x rSub) = treeSize lSub == treeSize rSub
+    -}
+
+    {-
+    complete Node EmptyTree x EmptyTree = True
+    complete Node lSub root rSub = complete
+    -}
+
+    treeSize :: (Ord a) => BTree a -> Int
+    treeSize EmptyTree = 0
+    treeSize (Node lSub x rSub) = 1 + treeSize lSub + treeSize rSub
+
+    --helper functions for testing functions
+    getRoot :: BTree a -> a
+    getRoot EmptyTree = error "No elements"
+    getRoot (Node lSub x rSub) = x
+
+    getLSub :: BTree a -> BTree a
+    getLSub EmptyTree = error "No elements"
+    getLSub (Node lSub x rSub) = lSub
+
+    getRSub :: BTree a -> BTree a
+    getRSub EmptyTree = error "No elements"
+    getRSub (Node lSub x rSub) = rSub
