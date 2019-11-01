@@ -4,4 +4,7 @@ mapFilter f p xs = map f (filter p xs)
 
 --redefine map f and filter p using foldr
 foldrMap :: (a -> b) -> [a] -> [b]
-foldrMap f = foldr (\x ys -> f x : ys) []
+foldrMap f = foldr (\x xs -> f x : xs) []
+
+foldrFilter :: (a -> Bool) -> [a] -> [a]
+foldrFilter p = foldr (\x ys -> if p x then x:xs else xs) []
