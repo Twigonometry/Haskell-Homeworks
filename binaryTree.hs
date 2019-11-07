@@ -23,9 +23,23 @@ module BinaryTree where
     --recurses over list of nodes to add
     --in current form, inserted in reverse order (sort of)
     --e.g [2,1] -> insert 2 into 1 (even though 2 should be root element)
+
+    {- builds tree from list, inserting nodes in order they appear
+    need to reverse list for items to be inserted in correct order -}
+    treeFromList :: (Ord a) => [a] -> BTree a
+    treeFromList [] = EmptyTree
+    treeFromList nodes = treeInsert (head (reverse nodes)) (treeFromList (reverse nodes))
+
+    complete :: (Ord a) => (BTree a) -> Bool
+    complete EmptyTree = True
+    complete (Node lSub x rSub) = complete lSub && complete rSub && 
+                                  treeHeight lSub == treeHeight rSub
+
+    {-
     treeFromList :: (Ord a) => [a] -> BTree a
     treeFromList [] = EmptyTree
     treeFromList (node:nodes) = treeInsert node (treeFromList nodes)
+    -}
 
     --taking definition from slides "A binary tree is complete if the two sub-trees of every node are of equal size"
     {-
@@ -39,9 +53,14 @@ module BinaryTree where
     complete Node lSub root rSub = complete
     -}
 
+    --recursively totals number of nodes in a tree
     treeSize :: (Ord a) => BTree a -> Int
     treeSize EmptyTree = 0
     treeSize (Node lSub x rSub) = 1 + treeSize lSub + treeSize rSub
+
+    treeHeight :: (Ord a) => BTree a -> Int
+    treeHeight EmptyTree = 0
+    treeHeight (Node lSub x rSub) = 1 + max (treeHeight lSub) (treeHeight rSub)
 
     --helper functions for testing functions
     getRoot :: BTree a -> a
